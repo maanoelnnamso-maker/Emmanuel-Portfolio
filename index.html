@@ -114,6 +114,7 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
   line-height: 1;
   color: var(--ink);
   letter-spacing: 0.02em;
+  transition: opacity 0.3s ease;
 }
 
 .agg-num sup {
@@ -131,6 +132,7 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
   letter-spacing: 0.1em;
   font-weight: 500;
   margin-top: 4px;
+  transition: opacity 0.3s ease;
 }
 
 /* Section head */
@@ -222,7 +224,38 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
   border-radius: 3px;
   background: var(--surface-2);
   color: var(--ink-2);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+/* Immersive View Toggle Pills */
+.view-toggle {
+  display: flex.gap;
+  gap: 4px;
+  background: var(--surface-2);
+  padding: 2px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.view-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: var(--ink-3);
+  transition: all 0.2s;
+}
+
+.view-btn.active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .case-domain {
@@ -238,41 +271,46 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
 
 .case-domain:hover { opacity: 0.7; }
 
-/* Mini chart thumbnail */
+/* Screenshot thumbnail */
 .case-screenshot {
   position: absolute;
   bottom: 14px;
   right: 14px;
-  width: 92px;
-  height: 54px;
+  width: 88px;
+  height: 60px;
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid var(--rule);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   flex-shrink: 0;
-  background: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--surface-2);
 }
 
 .case-screenshot:hover {
   transform: scale(1.06);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.case-screenshot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  display: block;
 }
 
 .screenshot-hint {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  background: rgba(15,14,12,0.85);
+  background: rgba(15,14,12,0.75);
   color: #fff;
-  font-size: 0.5rem;
+  font-size: 0.52rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-align: center;
-  padding: 2px 0;
+  padding: 3px 0;
 }
 
 /* Metrics row inside case-desc */
@@ -317,7 +355,7 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
   color: #fff;
   line-height: 1;
   letter-spacing: 0.03em;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.3s ease;
 }
 
 .case-stat-label {
@@ -329,7 +367,7 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
   text-align: right;
   margin-top: 4px;
   line-height: 1.4;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.3s ease;
 }
 
 .case-bottom {
@@ -457,7 +495,7 @@ footer {
 
 .footer-right a { color: var(--accent); text-decoration: none; font-weight: 500; }
 
-/* Lightbox Modal */
+/* Lightbox */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -477,49 +515,16 @@ footer {
   pointer-events: all;
 }
 
-.lightbox-content {
-  background: #1a1916;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 8px;
-  padding: 36px;
-  max-width: 500px;
-  width: 90vw;
-  color: #fff;
+.lightbox img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 6px;
   box-shadow: 0 24px 80px rgba(0,0,0,0.6);
   transform: scale(0.95);
   transition: transform 0.25s;
 }
 
-.lightbox.open .lightbox-content { transform: scale(1); }
-
-.lightbox-title {
-  font-family: var(--f-display);
-  font-size: 1.8rem;
-  letter-spacing: 0.04em;
-  margin-bottom: 8px;
-  color: var(--accent);
-}
-
-.lightbox-subtitle {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 24px;
-}
-
-.lightbox-metric-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  font-size: 0.9rem;
-}
-
-.lightbox-metric-row span:last-child {
-  font-weight: 600;
-  color: #fff;
-}
+.lightbox.open img { transform: scale(1); }
 
 .lightbox-close {
   position: absolute;
@@ -592,10 +597,11 @@ footer {
     </div>
   </header>
 
+  <!-- Top Aggregate Header with Slow Cinematic Cycling -->
   <div class="aggregate">
     <div class="agg-item">
-      <div class="agg-num">251<sup>+</sup></div>
-      <div class="agg-label">Meetings booked<br>IDPR (7 months)</div>
+      <div class="agg-num" id="agg-num-1">251<sup>+</sup></div>
+      <div class="agg-label" id="agg-label-1">Meetings booked<br>IDPR (7 months)</div>
     </div>
     <div class="agg-item">
       <div class="agg-num">3M<sup>+</sup></div>
@@ -619,32 +625,36 @@ footer {
 
   <div class="cases">
 
-    <!-- Interdependence -->
+    <!-- Interdependence (IDPR) with Immersive View Toggle -->
     <div class="case" data-brand="interdependence" style="--brand-rgb:232,58,46">
       <div class="case-top">
         <div class="case-identity">
           <div class="case-num">CASE 01</div>
           <div class="case-client">INTERDEPENDENCE</div>
           <span class="case-tag">Public Relations</span>
+          
+          <!-- Immersive View Toggle -->
+          <div class="view-toggle">
+            <button class="view-btn active" id="idpr-btn-7m" onclick="switchIdprView('7m')">7 Months</button>
+            <button class="view-btn" id="idpr-btn-30d" onclick="switchIdprView('30d')">October 2026</button>
+          </div>
+
           <a class="case-domain" href="https://interdependence.com" target="_blank">interdependence.com ↗</a>
-          <!-- Built-in mini chart thumbnail -->
-          <div class="case-screenshot" onclick="openLightbox('inter')">
-            <svg width="84" height="42" viewBox="0 0 100 50">
-              <path d="M 5 45 Q 25 35, 45 25 T 85 10 L 95 5" fill="none" stroke="#e83a2e" stroke-width="4" stroke-linecap="round"/>
-              <circle cx="85" cy="10" r="4" fill="#e83a2e"/>
-            </svg>
+          
+          <div class="case-screenshot" onclick="openLightbox('idpr')">
+            <img id="idpr-thumb" src="IDPR 7 months results.png" alt="IDPR Stats" onerror="this.style.display='none'">
             <div class="screenshot-hint">View stats</div>
           </div>
         </div>
         <div class="case-desc-wrap">
-          <div class="case-desc">
-            Designed technical outbound data infrastructure and managed client acquisition pipelines. Generated over $1.5M in pipeline value by booking 251 qualified meetings over a 7-month period—including 78 meetings in October—for Interdependence PR[cite: 5].
+          <div class="case-desc" id="idpr-desc">
+            Designed technical outbound data infrastructure and managed client acquisition pipelines. Generated over $1.5M in pipeline value by booking 251 qualified meetings over a 7-month period for Interdependence PR[cite: 5].
           </div>
         </div>
         <!-- Dynamic Glowing & Rotating Stat Box -->
         <div class="case-stat glowing-stat" style="background:#e83a2e;">
-          <div class="case-stat-num" id="idpr-stat-num">78</div>
-          <div class="case-stat-label" id="idpr-stat-label">Meetings<br>booked<br>in October</div>
+          <div class="case-stat-num" id="idpr-stat-num">251</div>
+          <div class="case-stat-label" id="idpr-stat-label">Meetings<br>booked<br>in 7 months</div>
         </div>
       </div>
       <div class="case-bottom">
@@ -663,7 +673,7 @@ footer {
       </div>
     </div>
 
-    <!-- Lumion -->
+    <!-- Lumion (Updated to 105) -->
     <div class="case" data-brand="lumion" style="--brand-rgb:0,201,167">
       <div class="case-top">
         <div class="case-identity">
@@ -671,12 +681,8 @@ footer {
           <div class="case-client">LUMION</div>
           <span class="case-tag">SaaS · Trade Schools</span>
           <a class="case-domain" href="https://lumion.ai" target="_blank">lumion.ai ↗</a>
-          <!-- Built-in mini chart thumbnail -->
           <div class="case-screenshot" onclick="openLightbox('lumion')">
-            <svg width="84" height="42" viewBox="0 0 100 50">
-              <path d="M 5 40 Q 30 30, 50 18 T 90 8 L 95 5" fill="none" stroke="#00c9a7" stroke-width="4" stroke-linecap="round"/>
-              <circle cx="90" cy="8" r="4" fill="#00c9a7"/>
-            </svg>
+            <img src="Lumion 7 months results.png" alt="Lumion Stats" onerror="this.style.display='none'">
             <div class="screenshot-hint">View stats</div>
           </div>
         </div>
@@ -686,7 +692,7 @@ footer {
           </div>
         </div>
         <div class="case-stat" style="background:#009e85">
-          <div class="case-stat-num">95</div>
+          <div class="case-stat-num">105</div>
           <div class="case-stat-label">Meetings<br>booked<br>(7 months)</div>
         </div>
       </div>
@@ -714,12 +720,7 @@ footer {
           <div class="case-client">PRODUCT<br>EVO</div>
           <span class="case-tag">Manufacturing · Fractional</span>
           <a class="case-domain" href="https://productevo.io" target="_blank">productevo.io ↗</a>
-          <!-- Built-in mini chart thumbnail -->
           <div class="case-screenshot" onclick="openLightbox('prod')">
-            <svg width="84" height="42" viewBox="0 0 100 50">
-              <path d="M 5 42 Q 35 32, 60 20 T 90 12 L 95 10" fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
-              <circle cx="90" cy="12" r="4" fill="#2563eb"/>
-            </svg>
             <div class="screenshot-hint">View stats</div>
           </div>
         </div>
@@ -769,7 +770,7 @@ footer {
       <div class="tile-name" style="color:#009e85">LUMION</div>
       <div class="tile-vertical">SaaS · Trade Schools</div>
       <div class="tile-scope">Cold email · Clay enrichment · Vertical copy · List building</div>
-      <div class="tile-result" style="color:#009e85">95 meetings · 7 months</div>
+      <div class="tile-result" style="color:#009e85">105 meetings · 7 months</div>
       <a class="tile-domain" href="https://lumion.ai" target="_blank" style="color:#009e85;border-color:rgba(0,201,167,0.3)">lumion.ai ↗</a>
     </div>
     <div class="client-tile" style="border-top:3px solid #1e3a5f;background:linear-gradient(160deg,rgba(30,58,95,0.04) 0%,#fff 60%)">
@@ -798,7 +799,7 @@ footer {
       <div class="tile-vertical">Reputation Management</div>
       <div class="tile-scope">Cold email · List building · Copywriting · Client comms</div>
       <div class="tile-result" style="color:#334155">Mid-market business owners</div>
-      <a class="tile-domain" href="https://rmc.com" target="_blank" style="color:#334155;border-color:rgba(33,41,55,0.3)">rmc.com ↗</a>
+      <a class="tile-domain" href="https://rmc.com" target="_blank" style="color:#334155;border-color:rgba(51,65,85,0.3)">rmc.com ↗</a>
     </div>
   </div>
 
@@ -812,64 +813,78 @@ footer {
 
 </div>
 
-<!-- Lightbox Modal -->
+<!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <div class="lightbox-content" onclick="event.stopPropagation()">
-    <div class="lightbox-title" id="lb-title">Engagement Data</div>
-    <div class="lightbox-subtitle" id="lb-sub">Performance Verification</div>
-    <div class="lightbox-metric-row">
-      <span>Pipeline Value Generated:</span>
-      <span>$1.5M+</span>
-    </div>
-    <div class="lightbox-metric-row">
-      <span>Qualified Meetings:</span>
-      <span id="lb-meetings">251</span>
-    </div>
-    <div class="lightbox-metric-row">
-      <span>Infrastructure:</span>
-      <span>Clay &amp; EmailBison</span>
-    </div>
-  </div>
+  <img id="lightbox-img" src="" alt="Dashboard screenshot" onclick="event.stopPropagation()" />
 </div>
 
 <script>
-  // Rotate IDPR stat box metrics every 4 seconds between October peak and 7-month total
-  const states = [
-    { num: "78", label: "Meetings<br>booked<br>in October" },
-    { num: "251", label: "Meetings<br>booked<br>in 7 months" }
+  // Slow, cinematic aggregate metric cycling across milestones
+  const aggStates = [
+    { num: '251<sup>+</sup>', label: 'Meetings booked<br>IDPR (7 months)' },
+    { num: '105<sup>+</sup>', label: 'Meetings booked<br>Lumion (7 months)' },
+    { num: '26<sup>+</sup>', label: 'Meetings booked<br>ProductEvo (60 days)' },
+    { num: '3M<sup>+</sup>', label: 'Emails sent<br>across clients' }
   ];
-  let currentState = 0;
+  let aggIndex = 0;
 
   setInterval(() => {
-    currentState = (currentState + 1) % states.length;
-    const numEl = document.getElementById('idpr-stat-num');
-    const labelEl = document.getElementById('idpr-stat-label');
-    
+    aggIndex = (aggIndex + 1) % aggStates.length;
+    const numEl = document.getElementById('agg-num-1');
+    const labelEl = document.getElementById('agg-label-1');
     if (numEl && labelEl) {
       numEl.style.opacity = 0;
       labelEl.style.opacity = 0;
-      
       setTimeout(() => {
-        numEl.innerHTML = states[currentState].num;
-        labelEl.innerHTML = states[currentState].label;
+        numEl.innerHTML = aggStates[aggIndex].num;
+        labelEl.innerHTML = aggStates[aggIndex].label;
         numEl.style.opacity = 1;
         labelEl.style.opacity = 1;
-      }, 250);
+      }, 300);
     }
-  }, 4000);
+  }, 5000); // Slower, elegant 5-second interval
 
-  const lightboxData = {
-    'inter': { title: 'Interdependence PR', sub: 'Public Relations Campaign', meetings: '251 Meetings (7 Mos) / 78 (Oct)' },
-    'lumion': { title: 'Lumion', sub: 'SaaS / Trade Schools Campaign', meetings: '95 Meetings (7 Mos)' },
-    'prod': { title: 'ProductEvo', sub: 'Manufacturing Fractional Campaign', meetings: '26 Meetings (60 Days)' }
-  };
+  // Interactive View Toggle for IDPR (7 Months vs October 2026)
+  let currentActiveImage = 'IDPR 7 months results.png';
 
+  function switchIdprView(viewType) {
+    const btn7m = document.getElementById('idpr-btn-7m');
+    const btn30d = document.getElementById('idpr-btn-30d');
+    const descEl = document.getElementById('idpr-desc');
+    const statNum = document.getElementById('idpr-stat-num');
+    const statLabel = document.getElementById('idpr-stat-label');
+    const thumbImg = document.getElementById('idpr-thumb');
+
+    if (viewType === '7m') {
+      btn7m.classList.add('active');
+      btn30d.classList.remove('active');
+      descEl.innerHTML = "Designed technical outbound data infrastructure and managed client acquisition pipelines. Generated over $1.5M in pipeline value by booking 251 qualified meetings over a 7-month period for Interdependence PR[cite: 5].";
+      statNum.innerHTML = "251";
+      statLabel.innerHTML = "Meetings<br>booked<br>in 7 months";
+      thumbImg.src = "IDPR 7 months results.png";
+      currentActiveImage = "IDPR 7 months results.png";
+    } else {
+      btn30d.classList.add('active');
+      btn7m.classList.remove('active');
+      descEl.innerHTML = "Executed high-velocity outbound campaigns during October 2026, delivering record-breaking pipeline acceleration and booking 78 qualified meetings in a single month for Interdependence PR.";
+      statNum.innerHTML = "78";
+      statLabel.innerHTML = "Meetings<br>booked<br>in October";
+      thumbImg.src = "IDPR 30 days results.png";
+      currentActiveImage = "IDPR 30 days results.png";
+    }
+  }
+
+  // Lightbox mapping
   function openLightbox(key) {
-    const data = lightboxData[key] || lightboxData['inter'];
-    document.getElementById('lb-title').innerText = data.title;
-    document.getElementById('lb-sub').innerText = data.sub;
-    document.getElementById('lb-meetings').innerText = data.meetings;
+    const imgEl = document.getElementById('lightbox-img');
+    if (key === 'idpr') {
+      imgEl.src = currentActiveImage;
+    } else if (key === 'lumion') {
+      imgEl.src = 'Lumion 7 months results.png';
+    } else {
+      return; // ProductEvo has no image uploaded yet
+    }
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
