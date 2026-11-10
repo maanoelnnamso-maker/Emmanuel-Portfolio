@@ -35,14 +35,6 @@ body {
   overflow-x: hidden;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-}
-
 .wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
 
 /* Header */
@@ -246,46 +238,41 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
 
 .case-domain:hover { opacity: 0.7; }
 
-/* Screenshot thumbnail */
+/* Mini chart thumbnail */
 .case-screenshot {
   position: absolute;
   bottom: 14px;
   right: 14px;
-  width: 88px;
-  height: 60px;
+  width: 92px;
+  height: 54px;
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid var(--rule);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   flex-shrink: 0;
-  background: var(--surface-2);
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .case-screenshot:hover {
   transform: scale(1.06);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-}
-
-.case-screenshot img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top left;
-  display: block;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
 .screenshot-hint {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  background: rgba(15,14,12,0.75);
+  background: rgba(15,14,12,0.85);
   color: #fff;
-  font-size: 0.52rem;
+  font-size: 0.5rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-align: center;
-  padding: 3px 0;
+  padding: 2px 0;
 }
 
 /* Metrics row inside case-desc */
@@ -470,7 +457,7 @@ footer {
 
 .footer-right a { color: var(--accent); text-decoration: none; font-weight: 500; }
 
-/* Lightbox */
+/* Lightbox Modal */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -490,16 +477,49 @@ footer {
   pointer-events: all;
 }
 
-.lightbox img {
-  max-width: 90vw;
-  max-height: 85vh;
-  border-radius: 6px;
+.lightbox-content {
+  background: #1a1916;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 36px;
+  max-width: 500px;
+  width: 90vw;
+  color: #fff;
   box-shadow: 0 24px 80px rgba(0,0,0,0.6);
   transform: scale(0.95);
   transition: transform 0.25s;
 }
 
-.lightbox.open img { transform: scale(1); }
+.lightbox.open .lightbox-content { transform: scale(1); }
+
+.lightbox-title {
+  font-family: var(--f-display);
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.lightbox-subtitle {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 24px;
+}
+
+.lightbox-metric-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.9rem;
+}
+
+.lightbox-metric-row span:last-child {
+  font-weight: 600;
+  color: #fff;
+}
 
 .lightbox-close {
   position: absolute;
@@ -607,8 +627,12 @@ footer {
           <div class="case-client">INTERDEPENDENCE</div>
           <span class="case-tag">Public Relations</span>
           <a class="case-domain" href="https://interdependence.com" target="_blank">interdependence.com ↗</a>
+          <!-- Built-in mini chart thumbnail -->
           <div class="case-screenshot" onclick="openLightbox('inter')">
-            <img src="IDPR 7 months results.png" alt="IDPR Stats" onerror="this.style.display='none'">
+            <svg width="84" height="42" viewBox="0 0 100 50">
+              <path d="M 5 45 Q 25 35, 45 25 T 85 10 L 95 5" fill="none" stroke="#e83a2e" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="85" cy="10" r="4" fill="#e83a2e"/>
+            </svg>
             <div class="screenshot-hint">View stats</div>
           </div>
         </div>
@@ -647,8 +671,12 @@ footer {
           <div class="case-client">LUMION</div>
           <span class="case-tag">SaaS · Trade Schools</span>
           <a class="case-domain" href="https://lumion.ai" target="_blank">lumion.ai ↗</a>
+          <!-- Built-in mini chart thumbnail -->
           <div class="case-screenshot" onclick="openLightbox('lumion')">
-            <img src="Lumion 7 months results.png" alt="Lumion Stats" onerror="this.style.display='none'">
+            <svg width="84" height="42" viewBox="0 0 100 50">
+              <path d="M 5 40 Q 30 30, 50 18 T 90 8 L 95 5" fill="none" stroke="#00c9a7" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="90" cy="8" r="4" fill="#00c9a7"/>
+            </svg>
             <div class="screenshot-hint">View stats</div>
           </div>
         </div>
@@ -686,8 +714,12 @@ footer {
           <div class="case-client">PRODUCT<br>EVO</div>
           <span class="case-tag">Manufacturing · Fractional</span>
           <a class="case-domain" href="https://productevo.io" target="_blank">productevo.io ↗</a>
+          <!-- Built-in mini chart thumbnail -->
           <div class="case-screenshot" onclick="openLightbox('prod')">
-            <img src="ProductEvo 7 months results.png" alt="ProductEvo Stats" onerror="this.style.display='none'">
+            <svg width="84" height="42" viewBox="0 0 100 50">
+              <path d="M 5 42 Q 35 32, 60 20 T 90 12 L 95 10" fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="90" cy="12" r="4" fill="#2563eb"/>
+            </svg>
             <div class="screenshot-hint">View stats</div>
           </div>
         </div>
@@ -766,7 +798,7 @@ footer {
       <div class="tile-vertical">Reputation Management</div>
       <div class="tile-scope">Cold email · List building · Copywriting · Client comms</div>
       <div class="tile-result" style="color:#334155">Mid-market business owners</div>
-      <a class="tile-domain" href="https://rmc.com" target="_blank" style="color:#334155;border-color:rgba(51,65,85,0.3)">rmc.com ↗</a>
+      <a class="tile-domain" href="https://rmc.com" target="_blank" style="color:#334155;border-color:rgba(33,41,55,0.3)">rmc.com ↗</a>
     </div>
   </div>
 
@@ -780,10 +812,25 @@ footer {
 
 </div>
 
-<!-- Lightbox -->
+<!-- Lightbox Modal -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightbox-img" src="" alt="Dashboard screenshot" onclick="event.stopPropagation()" />
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <div class="lightbox-title" id="lb-title">Engagement Data</div>
+    <div class="lightbox-subtitle" id="lb-sub">Performance Verification</div>
+    <div class="lightbox-metric-row">
+      <span>Pipeline Value Generated:</span>
+      <span>$1.5M+</span>
+    </div>
+    <div class="lightbox-metric-row">
+      <span>Qualified Meetings:</span>
+      <span id="lb-meetings">251</span>
+    </div>
+    <div class="lightbox-metric-row">
+      <span>Infrastructure:</span>
+      <span>Clay &amp; EmailBison</span>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -812,19 +859,19 @@ footer {
     }
   }, 4000);
 
-  // Map image filenames for lightbox preview
-  const imgs = {
-    'inter': 'IDPR 7 months results.png',
-    'lumion': 'Lumion 7 months results.png',
-    'prod': 'ProductEvo 7 months results.png'
+  const lightboxData = {
+    'inter': { title: 'Interdependence PR', sub: 'Public Relations Campaign', meetings: '251 Meetings (7 Mos) / 78 (Oct)' },
+    'lumion': { title: 'Lumion', sub: 'SaaS / Trade Schools Campaign', meetings: '95 Meetings (7 Mos)' },
+    'prod': { title: 'ProductEvo', sub: 'Manufacturing Fractional Campaign', meetings: '26 Meetings (60 Days)' }
   };
 
   function openLightbox(key) {
-    if (imgs[key]) {
-      document.getElementById('lightbox-img').src = imgs[key];
-      document.getElementById('lightbox').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
+    const data = lightboxData[key] || lightboxData['inter'];
+    document.getElementById('lb-title').innerText = data.title;
+    document.getElementById('lb-sub').innerText = data.sub;
+    document.getElementById('lb-meetings').innerText = data.meetings;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
 
   function closeLightbox() {
