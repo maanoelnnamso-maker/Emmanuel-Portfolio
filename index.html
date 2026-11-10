@@ -35,6 +35,15 @@ body {
   overflow-x: hidden;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+}
+
 .wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
 
 /* Header */
@@ -186,7 +195,7 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
 
 .case-top {
   display: grid;
-  grid-template-columns: 260px 1fr auto;
+  grid-template-columns: 280px 1fr auto;
   gap: 0;
   border-bottom: 1px solid var(--rule);
 }
@@ -195,6 +204,7 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
   padding: 28px;
   border-right: 1px solid var(--rule);
   position: relative;
+  padding-bottom: 74px; /* extra space for thumbnails */
 }
 
 .case-num {
@@ -227,37 +237,6 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
   margin-bottom: 8px;
 }
 
-/* Immersive View Toggle Pills */
-.view-toggle {
-  display: flex.gap;
-  gap: 4px;
-  background: var(--surface-2);
-  padding: 2px;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  width: fit-content;
-}
-
-.view-btn {
-  background: transparent;
-  border: none;
-  font-size: 0.6rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 3px 8px;
-  border-radius: 3px;
-  cursor: pointer;
-  color: var(--ink-3);
-  transition: all 0.2s;
-}
-
-.view-btn.active {
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
 .case-domain {
   display: block;
   font-size: 0.72rem;
@@ -271,20 +250,25 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
 
 .case-domain:hover { opacity: 0.7; }
 
-/* Screenshot thumbnail */
-.case-screenshot {
+/* Thumbnails container */
+.thumbnails-group {
   position: absolute;
   bottom: 14px;
-  right: 14px;
-  width: 88px;
-  height: 60px;
+  left: 28px;
+  display: flex;
+  gap: 8px;
+}
+
+.case-screenshot {
+  width: 58px;
+  height: 44px;
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid var(--rule);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
-  flex-shrink: 0;
   background: var(--surface-2);
+  position: relative;
 }
 
 .case-screenshot:hover {
@@ -303,14 +287,14 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
 .screenshot-hint {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  background: rgba(15,14,12,0.75);
+  background: rgba(15,14,12,0.8);
   color: #fff;
-  font-size: 0.52rem;
+  font-size: 0.42rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   text-align: center;
-  padding: 3px 0;
+  padding: 2px 0;
 }
 
 /* Metrics row inside case-desc */
@@ -560,13 +544,13 @@ footer {
   .agg-item:nth-child(3) { border-top: 1px solid var(--rule); }
   .agg-item:nth-child(4) { border-top: 1px solid var(--rule); border-right: none; }
   .case-top { grid-template-columns: 1fr; }
-  .case-identity { border-right: none; border-bottom: 1px solid var(--rule); }
+  .case-identity { border-right: none; border-bottom: 1px solid var(--rule); padding-bottom: 28px; }
+  .thumbnails-group { position: static; margin-top: 14px; }
   .case-desc-wrap { border-right: none; border-bottom: 1px solid var(--rule); }
   .case-stat { align-items: flex-start; }
   .case-bottom { grid-template-columns: 1fr; }
   .case-detail { border-right: none; border-bottom: 1px solid var(--rule); }
   .case-detail:last-child { border-bottom: none; }
-  .case-screenshot { width: 72px; height: 48px; }
   footer { flex-direction: column; gap: 16px; align-items: flex-start; }
   .footer-right { text-align: left; }
 }
@@ -625,33 +609,33 @@ footer {
 
   <div class="cases">
 
-    <!-- Interdependence (IDPR) with Immersive View Toggle -->
+    <!-- Interdependence (IDPR) with Both Images & Auto-Rotating Stat Box -->
     <div class="case" data-brand="interdependence" style="--brand-rgb:232,58,46">
       <div class="case-top">
         <div class="case-identity">
           <div class="case-num">CASE 01</div>
           <div class="case-client">INTERDEPENDENCE</div>
           <span class="case-tag">Public Relations</span>
-          
-          <!-- Immersive View Toggle -->
-          <div class="view-toggle">
-            <button class="view-btn active" id="idpr-btn-7m" onclick="switchIdprView('7m')">7 Months</button>
-            <button class="view-btn" id="idpr-btn-30d" onclick="switchIdprView('30d')">October 2026</button>
-          </div>
-
           <a class="case-domain" href="https://interdependence.com" target="_blank">interdependence.com ↗</a>
           
-          <div class="case-screenshot" onclick="openLightbox('idpr')">
-            <img id="idpr-thumb" src="IDPR 7 months results.png" alt="IDPR Stats" onerror="this.style.display='none'">
-            <div class="screenshot-hint">View stats</div>
+          <!-- Both Thumbnails Displayed Side by Side -->
+          <div class="thumbnails-group">
+            <div class="case-screenshot" onclick="openLightbox('IDPR 7 months results.png')">
+              <img src="IDPR 7 months results.png" alt="IDPR 7 Months" onerror="this.style.display='none'">
+              <div class="screenshot-hint">7 Months</div>
+            </div>
+            <div class="case-screenshot" onclick="openLightbox('IDPR 30 days results.png')">
+              <img src="IDPR 30 days results.png" alt="IDPR October" onerror="this.style.display='none'">
+              <div class="screenshot-hint">October</div>
+            </div>
           </div>
         </div>
         <div class="case-desc-wrap">
-          <div class="case-desc" id="idpr-desc">
-            Designed technical outbound data infrastructure and managed client acquisition pipelines. Generated over $1.5M in pipeline value by booking 251 qualified meetings over a 7-month period for Interdependence PR[cite: 5].
+          <div class="case-desc">
+            Designed technical outbound data infrastructure and managed client acquisition pipelines. Generated over $1.5M in pipeline value by booking 251 qualified meetings over a 7-month period—including 78 meetings in October 2026—for Interdependence PR[cite: 5].
           </div>
         </div>
-        <!-- Dynamic Glowing & Rotating Stat Box -->
+        <!-- Auto-Rotating Stat Box between 7 Months and October -->
         <div class="case-stat glowing-stat" style="background:#e83a2e;">
           <div class="case-stat-num" id="idpr-stat-num">251</div>
           <div class="case-stat-label" id="idpr-stat-label">Meetings<br>booked<br>in 7 months</div>
@@ -681,9 +665,11 @@ footer {
           <div class="case-client">LUMION</div>
           <span class="case-tag">SaaS · Trade Schools</span>
           <a class="case-domain" href="https://lumion.ai" target="_blank">lumion.ai ↗</a>
-          <div class="case-screenshot" onclick="openLightbox('lumion')">
-            <img src="Lumion 7 months results.png" alt="Lumion Stats" onerror="this.style.display='none'">
-            <div class="screenshot-hint">View stats</div>
+          <div class="thumbnails-group">
+            <div class="case-screenshot" onclick="openLightbox('Lumion 7 months results.png')">
+              <img src="Lumion 7 months results.png" alt="Lumion Stats" onerror="this.style.display='none'">
+              <div class="screenshot-hint">View stats</div>
+            </div>
           </div>
         </div>
         <div class="case-desc-wrap">
@@ -712,7 +698,7 @@ footer {
       </div>
     </div>
 
-    <!-- ProductEvo -->
+    <!-- ProductEvo with Uploaded Image Restored -->
     <div class="case" data-brand="productevo" style="--brand-rgb:37,99,235">
       <div class="case-top">
         <div class="case-identity">
@@ -720,8 +706,11 @@ footer {
           <div class="case-client">PRODUCT<br>EVO</div>
           <span class="case-tag">Manufacturing · Fractional</span>
           <a class="case-domain" href="https://productevo.io" target="_blank">productevo.io ↗</a>
-          <div class="case-screenshot" onclick="openLightbox('prod')">
-            <div class="screenshot-hint">View stats</div>
+          <div class="thumbnails-group">
+            <div class="case-screenshot" onclick="openLightbox('Product evo 60 days.png')">
+              <img src="Product evo 60 days.png" alt="ProductEvo Stats" onerror="this.style.display='none'">
+              <div class="screenshot-hint">View stats</div>
+            </div>
           </div>
         </div>
         <div class="case-desc-wrap">
@@ -820,7 +809,7 @@ footer {
 </div>
 
 <script>
-  // Slow, cinematic aggregate metric cycling across milestones
+  // Slow, cinematic aggregate metric ticker at top
   const aggStates = [
     { num: '251<sup>+</sup>', label: 'Meetings booked<br>IDPR (7 months)' },
     { num: '105<sup>+</sup>', label: 'Meetings booked<br>Lumion (7 months)' },
@@ -843,48 +832,37 @@ footer {
         labelEl.style.opacity = 1;
       }, 300);
     }
-  }, 5000); // Slower, elegant 5-second interval
+  }, 5000);
 
-  // Interactive View Toggle for IDPR (7 Months vs October 2026)
-  let currentActiveImage = 'IDPR 7 months results.png';
+  // Auto-rotating IDPR stat box between 7 months and October peak
+  const idprStates = [
+    { num: "251", label: "Meetings<br>booked<br>in 7 months" },
+    { num: "78", label: "Meetings<br>booked<br>in October" }
+  ];
+  let idprStateIndex = 0;
 
-  function switchIdprView(viewType) {
-    const btn7m = document.getElementById('idpr-btn-7m');
-    const btn30d = document.getElementById('idpr-btn-30d');
-    const descEl = document.getElementById('idpr-desc');
-    const statNum = document.getElementById('idpr-stat-num');
-    const statLabel = document.getElementById('idpr-stat-label');
-    const thumbImg = document.getElementById('idpr-thumb');
-
-    if (viewType === '7m') {
-      btn7m.classList.add('active');
-      btn30d.classList.remove('active');
-      descEl.innerHTML = "Designed technical outbound data infrastructure and managed client acquisition pipelines. Generated over $1.5M in pipeline value by booking 251 qualified meetings over a 7-month period for Interdependence PR[cite: 5].";
-      statNum.innerHTML = "251";
-      statLabel.innerHTML = "Meetings<br>booked<br>in 7 months";
-      thumbImg.src = "IDPR 7 months results.png";
-      currentActiveImage = "IDPR 7 months results.png";
-    } else {
-      btn30d.classList.add('active');
-      btn7m.classList.remove('active');
-      descEl.innerHTML = "Executed high-velocity outbound campaigns during October 2026, delivering record-breaking pipeline acceleration and booking 78 qualified meetings in a single month for Interdependence PR.";
-      statNum.innerHTML = "78";
-      statLabel.innerHTML = "Meetings<br>booked<br>in October";
-      thumbImg.src = "IDPR 30 days results.png";
-      currentActiveImage = "IDPR 30 days results.png";
+  setInterval(() => {
+    idprStateIndex = (idprStateIndex + 1) % idprStates.length;
+    const numEl = document.getElementById('idpr-stat-num');
+    const labelEl = document.getElementById('idpr-stat-label');
+    
+    if (numEl && labelEl) {
+      numEl.style.opacity = 0;
+      labelEl.style.opacity = 0;
+      
+      setTimeout(() => {
+        numEl.innerHTML = idprStates[idprStateIndex].num;
+        labelEl.innerHTML = idprStates[idprStateIndex].label;
+        numEl.style.opacity = 1;
+        labelEl.style.opacity = 1;
+      }, 300);
     }
-  }
+  }, 4000);
 
-  // Lightbox mapping
-  function openLightbox(key) {
+  // Lightbox handler supporting all image filenames
+  function openLightbox(filename) {
     const imgEl = document.getElementById('lightbox-img');
-    if (key === 'idpr') {
-      imgEl.src = currentActiveImage;
-    } else if (key === 'lumion') {
-      imgEl.src = 'Lumion 7 months results.png';
-    } else {
-      return; // ProductEvo has no image uploaded yet
-    }
+    imgEl.src = filename;
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
