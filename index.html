@@ -103,11 +103,11 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
     background-position: 100% 0;
     color: var(--ink);
   }
-  46% {
+  42% {
     background-position: 0% 0;
     color: #ffffff;
   }
-  54% {
+  64% {
     background-position: 0% 0;
     color: #ffffff;
   }
@@ -135,7 +135,7 @@ header { padding: 48px 0 0; border-bottom: 1px solid var(--rule); }
   background-image: linear-gradient(90deg, var(--accent) 0%, var(--accent) 50%, var(--bg) 50%, var(--bg) 100%);
   background-size: 200% 100%;
   background-position: 100% 0;
-  animation: orangeSweepFill 10s ease-in-out infinite;
+  animation: orangeSweepFill 15s ease-in-out 4s infinite;
   transition: transform 0.15s ease, box-shadow 0.2s ease, background-position 0.2s ease, color 0.2s ease;
 }
 
@@ -684,7 +684,7 @@ footer {
     </div>
   </header>
 
-  <!-- Top Aggregate Header with Slow Cinematic Cycling -->
+  <!-- Top Aggregate Header with Slow Cinematic Meetings-Only Cycling -->
   <div class="aggregate">
     <div class="agg-item">
       <div class="agg-num" id="agg-num-1">251<sup>+</sup></div>
@@ -938,12 +938,11 @@ footer {
 </div>
 
 <script>
-  // Slow, cinematic aggregate metric ticker at top
+  // Slow, cinematic meetings-only aggregate metric ticker at top
   const aggStates = [
     { num: '251<sup>+</sup>', label: 'Meetings booked<br>IDPR (7 months)' },
     { num: '105<sup>+</sup>', label: 'Meetings booked<br>Lumion (7 months)' },
-    { num: '26<sup>+</sup>', label: 'Meetings booked<br>ProductEvo (60 days)' },
-    { num: '3M<sup>+</sup>', label: 'Emails sent<br>across clients' }
+    { num: '26<sup>+</sup>', label: 'Meetings booked<br>ProductEvo (60 days)' }
   ];
   let aggIndex = 0;
 
